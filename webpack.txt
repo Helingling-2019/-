@@ -1,0 +1,255 @@
+安装 
+1，npm install webpack -g
+创建项目
+mkidr app
+在app目录下添加runoob1.js文件，代码如下
+document.write("It works.");
+在app目录下添加index.html文件，代码如下：
+app/index.html文件
+<html>
+	<head>
+	<meta charset="utf-8"> 
+	</head>
+	<body>
+		<script type="text/javascript" src="bundle.js" charset="utf-8"></script>
+	</body>
+</html>
+接下来我们使用webpack命令来打包
+webpack runoob1.js bundle.js
+执行以上命令会编译 runoob1.js 文件并生成bundle.js 文件，成功后输出信息如下所示：
+Hash: a41c6217554e666594cb
+Version: webpack 1.12.13
+Time: 50ms
+    Asset     Size  Chunks             Chunk Names
+bundle.js  1.42 kB       0  [emitted]  main
+   [0] ./runoob1.js 29 bytes {0} [built]
+webpack根据的依赖关系进行静态分析，这些文件（模块）会被包含bundle.js文件中。webpack会给每个模块分配一个唯一的id并通过这个id索引和访问模块。在页面启动时，会先执行runoob1.js中的代码，其它模块会在运行require的时候在执行。
+LOADER
+webpack 本身只能处理javascript模块，如果要处理其他类型的文件，就需要使用loader进行转换。
+所以如果我们需要在应用中添加css文件，就需要使用css-loader，他们做两件不同的事情，css-loader会遍历css文件，然后找到url（）表达式然后处理他们，style-loader会把原来的css代码插入页面中的一个style标签中。
+接下来我们使用以下命令来安装css-loader和style-loader(全局安装需要参数-g).
+cnpm install css-loader style-loader
+执行以上命令后，会在当前目录生成node_modules目录，它就是css-loader和style-loader的安装目录。
+接下来创建一个style.css文件，代码如下：
+app/style.css文件
+body{background:yellow;}
+修改runoob1.js文件，代码如下：
+app/runoob1.js文件
+require("!style-loader!css-loader!./style.css");
+document.write(require("./runoob2.js"));
+接下来我们使用webpack命令来打包：
+webpack runoob1.js bundle.js
+ 
+Hash: a9ef45165f81c89a4363
+Version: webpack 1.12.13
+Time: 619ms
+    Asset     Size  Chunks             Chunk Names
+bundle.js  11.8 kB       0  [emitted]  main
+   [0] ./runoob1.js 76 bytes {0} [built]
+   [5] ./runoob2.js 46 bytes {0} [built]
+    + 4 hidden modules
+
+
+开发环境
+当项目逐渐变大，webpack 的编译时间会变长，可以通过参数让编译的输出内容带有进度和颜色。
+
+webpack --progress --colors
+如果不想每次修改模块后都重新编译，那么可以启动监听模式。开启监听模式后，没有变化的模块会在编译后缓存到内存中，而不会每次都被重新编译，所以监听模式的整体速度是很快的。
+
+webpack --progress --colors --watch
+当然，我们可以使用 webpack-dev-server 开发服务，这样我们就能通过 localhost:8080 启动一个 express 静态资源 web 服务器，并且会以监听模式自动运行 webpack，在浏览器打开 http://localhost:8080/ 或 http://localhost:8080/webpack-dev-server/ 可以浏览项目中的页面和编译后的资源输出，并且通过一个 socket.io 服务实时监听它们的变化并自动刷新页面。
+
+# 安装
+cnpm install webpack-dev-server -g
+ 
+# 运行
+webpack-dev-server --progress --colors
+
+二、常用命令及安装
+复制代码
+npm install -g webpack
+npm install -g webpack-dev-server
+npm install
+npm info webpack //查看webpack 版本信息
+
+webpack --display-modules --display-chunks --config webpack.config.js //重新生成打包js
+webpack --watch   //监听变动并自动打包
+webpack --display-error-details //显示异常信息
+webpack -p    //压缩混淆脚本，这个非常非常重要！
+webpack -d    //生成map映射文件，告知哪些模块被最终打包到哪里了
+
+
+
+
+
+
+ajax请求
+GET 还是 POST？
+与 POST 相比，GET 更简单也更快，并且在大部分情况下都能用。
+
+然而，在以下情况中，请使用 POST 请求：
+
+无法使用缓存文件（更新服务器上的文件或数据库）
+向服务器发送大量数据（POST 没有数据量限制）
+发送包含未知字符的用户输入时，POST 比 GET 更稳定也更可靠
+
+url - 服务器上的文件
+open() 方法的 url 参数是服务器上文件的地址：
+
+xmlhttp.open("GET","ajax_test.html",true);
+该文件可以是任何类型的文件，比如 .txt 和 .xml，或者服务器脚本文件，比如 .asp 和 .php （在传回响应之前，能够在服务器上执行任务）。
+
+异步 - True 或 False？
+AJAX 指的是异步 JavaScript 和 XML（Asynchronous JavaScript and XML）。
+
+XMLHttpRequest 对象如果要用于 AJAX 的话，其 open() 方法的 async 参数必须设置为 true：
+
+xmlhttp.open("GET","ajax_test.html",true);
+对于 web 开发人员来说，发送异步请求是一个巨大的进步。很多在服务器执行的任务都相当费时。AJAX 出现之前，这可能会引起应用程序挂起或停止。
+
+通过 AJAX，JavaScript 无需等待服务器的响应，而是：
+
+在等待服务器响应时执行其他脚本
+当响应就绪后对响应进行处理
+Async=true
+当使用 async=true 时，请规定在响应处于 onreadystatechange 事件中的就绪状态时执行的函数：
+
+实例
+xmlhttp.onreadystatechange=function()
+{
+    if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    {
+        document.getElementById("myDiv").innerHTML=xmlhttp.responseText;
+    }
+}
+xmlhttp.open("GET","/try/ajax/ajax_info.txt",true);
+xmlhttp.send();
+
+尝试一下 »
+您将在稍后的章节学习更多有关 onreadystatechange 的内容。
+
+Async = false
+如需使用 async=false，请将 open() 方法中的第三个参数改为 false：
+
+xmlhttp.open("GET","test1.txt",false);
+我们不推荐使用 async=false，但是对于一些小型的请求，也是可以的。
+
+请记住，JavaScript 会等到服务器响应就绪才继续执行。如果服务器繁忙或缓慢，应用程序会挂起或停止。
+
+注意：当您使用 async=false 时，请不要编写 onreadystatechange 函数 - 把代码放到 send() 语句后面即可：
+
+实例
+xmlhttp.open("GET","/try/ajax/ajax_info.txt",false);
+xmlhttp.send();
+document.getElementById("myDiv").innerHTML=xmlhttp.responseText;
+
+
+xmlhttp.readyState的值及解释：
+
+0：请求未初始化（还没有调用 open()）。
+
+1：请求已经建立，但是还没有发送（还没有调用 send()）。
+
+2：请求已发送，正在处理中（通常现在可以从响应中获取内容头）。
+
+3：请求在处理中；通常响应中已有部分数据可用了，但是服务器还没有完成响应的生成。
+
+4：响应已完成；您可以获取并使用服务器的响应了。
+
+xmlhttp.status的值及解释：
+
+100——客户必须继续发出请求
+
+101——客户要求服务器根据请求转换HTTP协议版本
+
+200——交易成功
+
+201——提示知道新文件的URL
+
+202——接受和处理、但处理未完成
+
+203——返回信息不确定或不完整
+
+204——请求收到，但返回信息为空
+
+205——服务器完成了请求，用户代理必须复位当前已经浏览过的文件
+
+206——服务器已经完成了部分用户的GET请求
+
+300——请求的资源可在多处得到
+
+301——删除请求数据
+
+302——在其他地址发现了请求数据
+
+303——建议客户访问其他URL或访问方式
+
+304——客户端已经执行了GET，但文件未变化
+
+305——请求的资源必须从服务器指定的地址得到
+
+306——前一版本HTTP中使用的代码，现行版本中不再使用
+
+307——申明请求的资源临时性删除
+
+400——错误请求，如语法错误
+
+401——请求授权失败
+
+402——保留有效ChargeTo头响应
+
+403——请求不允许
+
+404——没有发现文件、查询或URl
+
+405——用户在Request-Line字段定义的方法不允许
+
+406——根据用户发送的Accept拖，请求资源不可访问
+
+407——类似401，用户必须首先在代理服务器上得到授权
+
+408——客户端没有在用户指定的饿时间内完成请求
+
+409——对当前资源状态，请求不能完成
+
+410——服务器上不再有此资源且无进一步的参考地址
+
+411——服务器拒绝用户定义的Content-Length属性请求
+
+412——一个或多个请求头字段在当前请求中错误
+
+413——请求的资源大于服务器允许的大小
+
+414——请求的资源URL长于服务器允许的长度
+
+415——请求资源不支持请求项目格式
+
+416——请求中包含Range请求头字段，在当前请求资源范围内没有range指示值，请求也不包含If-Range请求头字段
+
+417——服务器不满足请求Expect头字段指定的期望值，如果是代理服务器，可能是下一级服务器不能满足请求
+
+合起来
+
+500——服务器产生内部错误
+
+501——服务器不支持请求的函数
+
+502——服务器暂时不可用，有时是为了防止发生系统过载
+
+503——服务器过载或暂停维修
+
+504——关口过载，服务器使用另一个关口或服务来响应用户，等待时间设定值较长
+
+505——服务器不支持或拒绝支请求头中指定的HTTP版本
+
+1xx:信息响应类，表示接收到请求并且继续处理
+
+2xx:处理成功响应类，表示动作被成功接收、理解和接受
+
+3xx:重定向响应类，为了完成指定的动作，必须接受进一步处理
+
+4xx:客户端错误，客户请求包含语法错误或者是不能正确执行
+
+5xx:服务端错误，服务器不能正确执行一个正确的请求
+
+xmlhttp.readyState==4 && xmlhttp.status==200的解释：请求完成并且成功返回

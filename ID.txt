@@ -1,0 +1,7 @@
+vue项目安装
+https://blog.csdn.net/echo008/article/details/77099058
+小程序id	
+wx55c9fc046c9f6804
+百度地图api密钥
+c7p9zNwoAIwUTTLNiIEavoIF3TjE7ReG
+http://api.map.baidu.com/api?v=3.0&ak=X42FfHwcQIECwhGGIh9qta8wD0DxusT8
